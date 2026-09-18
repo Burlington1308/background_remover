@@ -49,6 +49,24 @@ export default function BackgroundRemover() {
 
   const handleDrop = (e) => {
     e.preventDefault();
+    const file = e.dataTransfer.files[0];
+    handleFileSelect(file);
+  }
+
+  const handleFileInputChange = (e) => {
+    const file = e.target.file && e.target.files[0] ? e.targetfiles[0] : undefined;
+    handleFileSelect(file);
+  }
+
+  const downloadImage = () => {
+    if(!processedImage) return;
+
+    const link = document.createElement("a");
+
+    link.href = processedImage;
+    link.download = "background-removed.png";
+    link.click();
+    URL.revokeObjectURL(processedImage);
   }
 
   return (
