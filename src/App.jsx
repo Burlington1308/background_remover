@@ -121,6 +121,72 @@ export default function BackgroundRemover() {
             />
           </div>
         )}
+
+        {error && <div className="text-center text-pink-400 mb-4">
+          {error}</div>}
+
+        {
+          originalImage && (
+            <div 
+            className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+              <div className="flex flex-col items-center">
+                <div className="text-fuchsia-300 text-xl">
+                  Original
+                </div>
+                <div className="aspect-square w-full max-w-md mx-auto border-2 border-fuchsia-600/50 rounded-2xl overflow-hidden flex items-center justify-center">
+                  <img src={originalImage} alt="original"
+                    className="object-contain w-full h-full"
+                  />
+                </div>
+              </div>
+
+              <div className="flex flex-col items-center">
+                <div className="text-fuchsia-300 text-xl mb-2">
+                  Background Removed
+                </div>
+                <div className="aspect-square w-full max-w-md mx-auto border-2 border-fuchsia-600/50 rounded-2xl overflow-hidden flex items-center justify-center">
+                {processedImage ? (
+                  <img src={processedImage} alt="processed"
+                    className="object-contain w-full h-full"
+                  />
+                ) : (
+                  <div className="flex fle-col items-center
+                    justify-center w-full h-full text-fuchsia-400
+                  ">
+                    {isProcessing ? (
+                      <div className="flex items-center gap-2">
+                        <div className="animate-spin w-6 h-6 border-2
+                          border-fuchsia-300/30 border-t-fuchsia-100
+                          rounded-full
+                        "></div>
+                        Processing...
+                      </div>
+                    ) : (
+                      <span>Processed image will appear here</span>
+                    )}
+                  </div>
+                )}  
+                
+                </div>
+              </div>
+            </div>
+          )
+        }
+
+        {
+          originalImage && (
+            <div className="flex flex-col sm:flex-row flex-wrap gap-3 justify-center items-center mt-2">
+              <button
+                onClick={downloadImage}
+                disabled={!processedImage}
+                className="px-6 py-3 bg-gradient-to-r from-fuchsia-600 to-pink-400 hover:opacity-80 text-white font-semibold rounded-2xl disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+              >{processedImage ? "Download Result" : "Processing..."}</button>
+              <button onClick={resetApp}
+              className="px-6 py-3 bg-gradient-to-r from-fuchsia-600 to-pink-400 hover:opacity-80 text-white font-semibold rounded-2xl cursor-pointer"
+              >Process Another Image</button>
+            </div>
+          )
+        }
       </div>
     </div>
   );
