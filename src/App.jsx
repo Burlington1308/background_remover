@@ -69,6 +69,15 @@ export default function BackgroundRemover() {
     URL.revokeObjectURL(processedImage);
   }
 
+  const resetApp = () => {
+    setOriginalImage(null);
+    setProcessedImage(null);
+    setIsProcessing(false);
+    setError(null);
+    if (fileInputRef.current)
+        fileInputRef.current.value = "";
+  }
+
   return (
     <div className="min-h-screen
       bg-linear-to-br from-fuchsia-950
@@ -80,6 +89,39 @@ export default function BackgroundRemover() {
       ">
         Background Remover
       </h1>
+
+      <div className="w-full max-w-2xl bg-linear-to-r
+        from-fuchsia-900 to-indigo-950 backdrop-blur-md
+        border border-fuchsia-500/30 rounded-3xl p-4 sm:p-6
+        shadow-2xl
+      ">
+        { !originalImage && (
+          <div className="flex flex-col items-center justify-center
+            h-96 mb-6 p-4 bg-linear-to-b from-indigo-950/40
+            to-fuchsia-950/50 rounded-2xl opacity-80 hover:opacity-100
+            hover;shadow-fuchsia-700 shadow-2xl transition-all duration-400
+            text-center cursor-pointer"
+            onClick={() => fileInputRef.current?.click()}
+            onDragOver={handleDragOver}
+            onDrop={handleDrop}
+          >
+            <div className="text-4xl sm:text-5xl mb-4">📸</div>
+            <div className="text-lg sm:text-xl text-fuchsia-200 mb-2">
+              Drag & drop or click to upload an image
+            </div>
+            <div className="text-xs sm:text-sm text-fuchsia-400">
+              JPG, PNG, WEBP supported
+            </div>
+            <input 
+              type="file" 
+              ref={fileInputRef}
+              accept="image/"
+              onChange={handleFileInputChange}
+              className="hidden"
+            />
+          </div>
+        )}
+      </div>
     </div>
   );
 }
