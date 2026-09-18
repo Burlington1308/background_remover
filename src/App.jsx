@@ -22,6 +22,33 @@ export default function BackgroundRemover() {
 
     // create File reader
     const reader = new FileReader();
+
+    reader.onload = (e) => {
+      if(e.target && typeof e.target.result === "string") {
+        setOriginalImage(e.target.result); // read image as string as assign it ot the original image
+      }
+    };
+
+    reader.readAsDataURL(file);
+
+    try {
+      const blob = await removeBackground(file);
+      const url = URL.createObjectURL(blob);
+      setProcessedImage(url);
+    } catch(err) {
+      setError("Failed to process image. Please try another image.");
+      console.log("Background removal error: ", err);
+    } finally {
+      setIsProcessing(false);
+    }
+  }
+
+  const handleDragOver = (e) => {
+    e.preventDefault();
+  }
+
+  const handleDrop = (e) => {
+    e.preventDefault();
   }
 
   return (
